@@ -1,0 +1,101 @@
+---
+# tasks file for ito-create-efs
+
+- name: Get Default Security group
+  ec2_group_facts:
+    region: "{{ REGION }}"
+    filters:
+      group-name: "efs_{{ PROJECT }}"
+      "tag:Environment": "{{ ENVIRONMENT }}"
+  register: security_facts
+
+- name: Fetch VPC ID
+  ec2_vpc_net_facts:
+    region: "{{ REGION }}"
+    filters:
+      "tag:Name": "{{ ENVIRONMENT }} | {{ REGION }}"
+  register: ec2_vpc
+
+- name: Get Subnet ID For AZ A
+  ec2_vpc_subnet_facts:
+    region: "{{ REGION }}"
+    filters:
+      "tag:Name": "{{ SUBNET_NAME }} | a | {{ ENVIRONMENT }} | {{ REGION }}"
+  register: ec2_subnet_a
+
+- name: Get Subnet ID For AZ B
+  ec2_vpc_subnet_facts:
+    region: "{{ REGION }}"
+    filters:
+      "tag:Name": "{{ SUBNET_NAME }} | b | {{ ENVIRONMENT }} | {{ REGION }}"
+  register: ec2_subnet_b
+
+- name: Get Subnet ID For AZ C
+  ec2_vpc_subnet_facts:
+    region: "{{ REGION }}"
+    filters:
+      "tag:Name": "{{ SUBNET_NAME }} | c | {{ ENVIRONMENT }} | {{ REGION }}"
+  register: ec2_subnet_c
+
+- name: Create project EFS mount
+  efs:
+    state: present
+    region: "{{ REGION }}"
+    name: "mount-{{ PROJECT }}-{{ ENVIRONMENT | regex_replace('.caltesting.org') }}"
+    tags:
+      Project: "{{ PROJECT }}"
+      Environment: "{{ ENVIRONMENT }}"
+      Name: "mount-{{ PROJECT }}-{{ ENVIRONMENT | regex_replace('.caltesting.org') }}"
+    targets:
+      - subnet_id: "{{ ec2_subnet_a.subnets.0.id }}"
+        security_groups: [ "{{ security_facts.security_groups.0.group_id }}" ]
+      - subnet_id: "{{ ec2_subnet_b.subnets.0.id }}"
+        security_groups: [ "{{ security_facts.security_groups.0.group_id }}" ]
+      - subnet_id: "{{ ec2_subnet_c.subnets.0.id }}"
+        security_groups: [ "{{ security_facts.security_groups.0.group_id }}" ]
+  register: efs_facts
+
+- name: Create Record in DNS for project mount
+  route53:
+    zone: "{{ ENVIRONMENT }}."
+    record: "efs-{{ PROJECT }}.{{ ENVIRONMENT }}"
+    value: "{{ item }}"
+    ttl: 7200
+    type: CNAME
+    wait: yes
+    private_zone: true
+    state: present
+    overwrite: true
+  with_items: "{{ efs_facts.efs.mount_point | replace('.','',1) | reverse | replace('/','',1) | replace(':','',1) | reverse }}"
+
+- name: Create carbon EFS mount
+  efs:
+    state: present
+    region: "{{ REGION }}"
+    name: "carbon-{{ PROJECT }}-{{ ENVIRONMENT | regex_replace('.caltesting.org') }}"
+    tags:
+      Project: "{{ PROJECT }}"
+      Environment: "{{ ENVIRONMENT }}"
+      Application: "mon"
+      Name: "{{ PROJECT }}-{{ ENVIRONMENT | regex_replace('.caltesting.org') }}-carbon"
+    targets:
+      - subnet_id: "{{ ec2_subnet_a.subnets.0.id }}"
+        security_groups: [ "{{ security_facts.security_groups.0.group_id }}" ]
+      - subnet_id: "{{ ec2_subnet_b.subnets.0.id }}"
+        security_groups: [ "{{ security_facts.security_groups.0.group_id }}" ]
+      - subnet_id: "{{ ec2_subnet_c.subnets.0.id }}"
+        security_groups: [ "{{ security_facts.security_groups.0.group_id }}" ]
+  register: efs_carbon_facts
+
+- name: Create Record in DNS for carbon mount
+  route53:
+    zone: "{{ ENVIRONMENT }}."
+    record: "efs-carbon-{{ PROJECT }}.{{ ENVIRONMENT }}"
+    value: "{{ item }}"
+    ttl: 7200
+    type: CNAME
+    wait: yes
+    private_zone: true
+    state: present
+    overwrite: true
+  with_items: "{{ efs_carbon_facts.efs.mount_point | replace('.','',1) | reverse | replace('/','',1) | replace(':','',1) | reverse }}"
