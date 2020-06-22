@@ -1,6 +1,7 @@
 ---
 - name: Installing boto in Controller Machine
   hosts: localhost
+  gather_facts: true
   become: true
   tasks:
     - name: Installing pip
