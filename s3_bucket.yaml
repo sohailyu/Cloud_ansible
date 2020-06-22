@@ -6,5 +6,5 @@
   tasks:
     - name: Create s3 bucket
       s3_bucket:
-        name: mys3bucketa2342341341231
+        name: "{{ Bucket_Name }}"
         state: present
