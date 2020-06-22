@@ -1,0 +1,11 @@
+---#
+
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks: 
+    - s3_bucket:
+      name: mys3bucketa2342341341231
+      state: present
+
+
