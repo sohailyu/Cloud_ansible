@@ -18,7 +18,7 @@
         description: "Security group for {{ ENVIRONMENT }}_{{ REGION }}"
         region: "{{ REGION }}"
         state: present
-        vpc_id: vpc-0150884bb36f3844b #"{{ ec2_vpc.vpcs.0.id }}"
+        vpc_id: "{{ ec2_vpc.vpcs.0.id }}"
         tags:
           "Environment": "{{ ENVIRONMENT }}"
           "Region": "{{ REGION }}"
@@ -26,4 +26,4 @@
           - proto: tcp
             from_port: "{{ PORT }}"
             to_port: "{{ PORT }}"
-            group_name: "{{ item|default([]) }}"
+            cidr_ip: 10.0.0.0/16
