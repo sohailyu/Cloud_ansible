@@ -1,0 +1,30 @@
+---
+
+- name: Create Security Group
+  hosts: localhost
+  become: true
+  gather_facts: False
+  tasks:
+    - name: Fetch VPC ID
+      ec2_vpc_net_facts:
+        region: "{{ REGION }}"
+        filters:
+          "tag:Name": "{{ ENVIRONMENT }} | {{ REGION }}"
+      register: ec2_vpc
+
+
+    - name: Create Security Group
+      ec2_group:
+        name: "{{ ENVIRONMENT }}"
+        description: "Security group for {{ ENVIRONMENT }}_{{ REGION }}"
+        region: "{{ REGION }}"
+        state: present
+        vpc_id: "{{ ec2_vpc.vpcs.0.id }}"
+        tags:
+          "Environment": "{{ ENVIRONMENT }}"
+          "Region": "{{ REGION }}"
+        rules:
+          - proto: tcp
+            from_port: "{{ PORT }}"
+            to_port: "{{ PORT }}"
+            group_name: "{{ item|default([]) }}"
