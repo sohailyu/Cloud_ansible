@@ -19,7 +19,7 @@
         description: "Security group for {{ ENVIRONMENT }}_{{ REGION }}"
         region: "{{ REGION }}"
         state: present
-        vpc_id: "{{ ec2_vpc.vpcs.0.id }}"
+        vpc_id: vpc-01f3a16a1522c7b4d #"{{ ec2_vpc.vpcs.0.id }}"
         tags:
           "Environment": "{{ ENVIRONMENT }}"
           "Region": "{{ REGION }}"
