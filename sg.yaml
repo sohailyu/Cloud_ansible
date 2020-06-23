@@ -26,4 +26,4 @@
           - proto: tcp
             from_port: "{{ PORT }}"
             to_port: "{{ PORT }}"
-            group_name: "{{ item|default([]) }}"
+            group_name: abc
