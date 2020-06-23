@@ -1,8 +1,7 @@
 ---
 
-- name: Create Security Group
-  hosts: localhost
-  become: true
+- hosts: localhost
+  connection: local
   gather_facts: False
   tasks:
     - name: Fetch VPC ID
