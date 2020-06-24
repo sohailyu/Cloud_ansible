@@ -7,7 +7,7 @@
   tasks:
     - name: gather facts about "{{SERVER}}" AMIs
       ec2_ami_facts:
-      region: "{{ REGION }}"
+        region: "{{ REGION }}"
         filters:
           "tag_value": "{{ SERVER }}" 
       register: ami_facts
@@ -17,9 +17,9 @@
 
     - name: gather facts about Security Group
       ec2_group_facts:
-      region: "{{ REGION }}"
-       filters:
-         "tag_value": "{{ ENVIRONMENT }} | {{ REGION }} | {{ SERVER }}"
+        region: "{{ REGION }}"
+        filters:
+          "tag_value": "{{ ENVIRONMENT }} | {{ REGION }} | {{ SERVER }}"
       register: sg_facts
 
     - debug: 
