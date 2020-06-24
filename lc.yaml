@@ -26,5 +26,30 @@
 
     - debug: 
         var: sg_facts
+    
+    - name: gather facts about subnet
+      ec2_vpc_subnet_facts:
+        region: "{{ REGION }}"
+        filters:
+        "tag-value": "{{ INF }}"
+
+    - debug:
+        var: subnet_facts
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     
