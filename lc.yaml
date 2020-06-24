@@ -1,9 +1,8 @@
 ---
 
 
-- name: Creating Launch_Config
-  hosts: localhost
-  become: true
+- hosts: localhost
+  connection: local
   gather_facts: False
   tasks:
     - name: gather facts about "{{SERVER}}" AMIs
