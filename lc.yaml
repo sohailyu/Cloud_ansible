@@ -43,7 +43,7 @@
       ec2:
         key_name: mac
         instance_type: t2.micro
-        image: "{{ IMAGE_ID }}"
+        image: ami-00cb043dfe625c3f3
         wait: yes
         group: "{{ sg_facts.group_id }}"
         count: 1
