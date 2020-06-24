@@ -16,7 +16,7 @@
         var: ami_facts
 
     - name: gather facts about Security Group
-      ec2_group_facts:
+      ec2_group_info:
         region: "{{ REGION }}"
         filters:
           "tag-value": 
