@@ -39,7 +39,7 @@
       ec2:
         key_name: mac
         instance_type: t2.micro
-        image_id: "{{ ami_facts.image_id }}"
+        image_id: "{{ ami_facts_image_id }}"
         wait: yes
         group_id: "{{ sg_facts.group_id }}"
         count: 1
