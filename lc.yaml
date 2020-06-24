@@ -15,9 +15,9 @@
     - debug:
         var: ami_facts
     
-    - name: Set Service AMI Builder Image for "{{ SERVICE }}"
-      set_fact:
-        IMAGE_ID: "{{ ami_facts.image_id }}"
+ #   - name: Set Service AMI Builder Image for "{{ SERVICE }}"
+ #     set_fact:
+ #       IMAGE_ID: "{{ ami_facts.image_id }}"
     
     - name: gather facts about Security Group
       ec2_group_info:
