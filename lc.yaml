@@ -32,7 +32,7 @@
         region: "{{ REGION }}"
         filters:
           "tag-value": "{{ PURPOSE }}"
-
+      register: subnet_facts
     - debug:
         var: subnet_facts
 
