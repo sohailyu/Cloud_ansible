@@ -19,11 +19,9 @@
       ec2_group_info:
         region: "{{ REGION }}"
         filters:
-          "tag-value": 
-           with_items:
-             - " {{ ENVIRONMENT }}" 
-             - " {{ REGION }}" 
-             - " {{ SERVER }}"
+          "tag-value": "{{ ENVIRONMENT }}" 
+          "tag-value": "{{ REGION }}" 
+          "tag-value": "{{ SERVER }}"
       register: sg_facts
 
     - debug: 
