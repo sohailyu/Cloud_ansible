@@ -12,8 +12,8 @@
           "tag-value": "{{ SERVER }}" 
       register: ami_facts
 
-    - debug:
-        msg: "{{ ami_facts.image_id }}"
+#    - debug:
+#        msg: "{{ ami_facts.image_id }}"
     
  #   - name: Set Service AMI Builder Image for "{{ SERVICE }}"
  #     set_fact:
