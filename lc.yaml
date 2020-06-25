@@ -44,11 +44,11 @@
         key_name: Mac
         aws_region: "{{ REGION }}"
         instance_type: t2.micro
-        image: "{{ ami_facts.results.0.ami_id }}" #ami-00cb043dfe625c3f3
+        image: "{{ ami_facts.0.ami_id }}" #ami-00cb043dfe625c3f3
         wait: yes
-        group: "{{ sg_facts.results.0.group_id }}"
+        group: "{{ sg_facts.0.group_id }}"
         count: 1
-        vpc_saubnet_id: "{{ subnet_facts.results.0.subnet_id }}"
+        vpc_saubnet_id: "{{ subnet_facts.0.subnet_id }}"
         assign_public_ip: yes
 
 
