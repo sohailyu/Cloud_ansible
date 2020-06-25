@@ -13,7 +13,7 @@
       register: ami_facts
 
     - debug:
-        var: ami_facts
+        msg: "{{ ami_facts.image_id }}"
     
  #   - name: Set Service AMI Builder Image for "{{ SERVICE }}"
  #     set_fact:
