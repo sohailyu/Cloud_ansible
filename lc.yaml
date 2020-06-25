@@ -42,6 +42,7 @@
     - name: Create "{{ SERVER}}" Instance
       ec2:
         key_name: Mac
+        aws_region: "{{ REGION }}"
         instance_type: t2.micro
         image: "{{ ami_facts.results.0.ami_id }}" #ami-00cb043dfe625c3f3
         wait: yes
