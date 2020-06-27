@@ -28,7 +28,6 @@
             from_port: "{{ PORT_1 }}"
             to_port: "{{ PORT_1 }}"
             cidr_ip: 10.0.0.0/16
-        rules:
           - proto: tcp
             from_port: "{{ PORT_2 }}"
             to_port: "{{ PORT_2 }}"
