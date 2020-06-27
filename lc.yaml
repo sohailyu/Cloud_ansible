@@ -46,7 +46,7 @@
         instance_type: t2.micro
         image: ami-00cb043dfe625c3f3 #"{{ ami_facts.0.ami_id }}" #ami-00cb043dfe625c3f3
         wait: yes
-        group_id: sg-0d63324b85aa8f119 #"{{ sg_facts.0.group_id }}"
+        group_id: sg-0e985a9418f9249ee #"{{ sg_facts.0.group_id }}"
         count: 1
         vpc_subnet_id: subnet-4737543e #"{{ subnet_facts.0.subnet_id }}"
         assign_public_ip: yes
