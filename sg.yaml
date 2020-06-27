@@ -30,6 +30,6 @@
             cidr_ip: 10.0.0.0/16
         rules:
           - proto: ssh
-            from_post: "{{ PORT_2 }}"
+            from_port: "{{ PORT_2 }}"
             to_port: "{{ PORT_2 }}"
             cidr_ip: 10.0.0.0/16
